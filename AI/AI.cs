@@ -54,8 +54,6 @@ namespace AI
             int currentReward = 0;
             
             
-
-
             while (!(dead || win))
             {
                 if (!qState.Contains(currentState))
@@ -85,8 +83,8 @@ namespace AI
                     qState.Add(stateP1);
                     qReward.Add(new List<double> { 0, 0, 0, 0 });
                 }
-                
-                
+
+
 
                 //Il faut faire le calcul
                 // Q[st][at] = Q[st][at] + lr*( currentReward + gamma*Q[stp1][atp1] - Q[st][at] ) 
@@ -99,6 +97,14 @@ namespace AI
                 var b = qReward[qState.IndexOf(stateP1)][(int)actionP1];
                 var result0 = a + learningRate * (currentReward + gamma * b - a);
                 qReward[qState.IndexOf(currentState)][(int)currentAction] = result0;
+
+                // Sans le LR : (test)
+                //var a = qReward[qState.IndexOf(currentState)][(int)currentAction];
+                //var b = qReward[qState.IndexOf(stateP1)][(int)actionP1];
+                //var result0 = a + gamma * b;
+                //qReward[qState.IndexOf(currentState)][(int)currentAction] = result0;
+
+
                 currentState = stateP1;
             }
         }
