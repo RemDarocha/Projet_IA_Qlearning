@@ -6,8 +6,8 @@ namespace AI
 {
     class AI
     {
-        public double learningRate = 0.005;
-        public double gamma = 0.5;
+        public double learningRate = 0.5;
+        public double gamma = 0.7;
 
         public List<string> qState = new List<string>();
         public List<List<double>> qReward = new List<List<double>>();
@@ -15,7 +15,7 @@ namespace AI
 
         public void Start()
         {
-            for (int i = 0; i < 500; i++)
+            for (int i = 0; i < 100; i++)
             {
                 Lap();
             }

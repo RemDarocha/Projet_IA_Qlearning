@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading;
 
 namespace AI
 {
@@ -8,9 +9,10 @@ namespace AI
     {
         List<string> map = new List<string>();
         Player player = new Player();
-        public void Start()
+        public string Start()
         {
             Initialisation();
+            return player.ToString();
         }
         public void Initialisation()
         {
@@ -22,6 +24,7 @@ namespace AI
             map.Add("x----x");
             map.Add("x0---x");
             map.Add("xxxxxx");
+            Display();
         }
 
         public void Display()
@@ -43,11 +46,12 @@ namespace AI
 
         public Tuple<string, int> Move(Movement movement)
         {
-            Tuple<string, int> ret = new Tuple();
-            int x = player.position.x - 2;
-            int y = player.position.y;
+            int x = 1 + player.position.x;
+            int y = map.Count - 2 - player.position.y;
+            char lastChar = map[y][x];
+            ModifyMap(x, y, '-');
 
-            
+            Thread.Sleep(10);
             switch (movement)
             {
                 case Movement.Right:
@@ -63,11 +67,40 @@ namespace AI
                     player.position.y--;
                     break;
             }
+            x = 1 + player.position.x;
+            y = map.Count - 2 - player.position.y;
+            char newChar = map[y][x];
+            ModifyMap(x, y, '0');
+            int reward = -1;
+            
+            switch (newChar)
+            {
+                case 'R':
+                    reward = 100;
+                    break;
+                case 'x':
+                    reward = -100;
+                    break;
+            }
+            
+            Display();
+            return new Tuple<string, int>(player.ToString(), reward);
+            
         }
-        private void modifyMap(int x, int y, char c)
+        private void ModifyMap(int x, int y, char c)
         {
-
+            string line = map[y];
+            string newLine = "";
+            for (int i = 0; i < line.Length; i++)
+            {
+                char toAdd = line[i];
+                if (i == x)
+                {
+                    toAdd = c;
+                }
+                newLine += toAdd;
+            }
+            map[y] = newLine;
         }
-
     }
 }

@@ -8,5 +8,10 @@ namespace AI
     {
         //private int[] podsition = new int[2] { 0, 0 };
         public Position position = new Position();
+
+        public override string ToString()
+        {
+            return position.x+","+position.y;
+        }
     }
 }
