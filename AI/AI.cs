@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace AI
 {
@@ -37,14 +36,14 @@ namespace AI
                     higherIndex = i;
                 }
             }
-            return new Random().Next(0, 10) <= epsilon*10 ? (Map.Movement)new Random().Next(0, 3) : (Map.Movement)higherIndex; 
+            return new Random().Next(0, 10) <= epsilon * 10 ? (Map.Movement)new Random().Next(0, 3) : (Map.Movement)higherIndex;
 
         }
 
         private void Lap()
         {
             Map map = new Map();
-            
+
             bool dead = false;
             bool win = false;
             string currentState = map.Start();
@@ -52,8 +51,8 @@ namespace AI
             Map.Movement currentAction;
             Map.Movement actionP1;
             int currentReward = 0;
-            
-            
+
+
             while (!(dead || win))
             {
                 if (!qState.Contains(currentState))
@@ -65,7 +64,7 @@ namespace AI
                 var result = map.Move(currentAction);
 
                 stateP1 = result.Item1;
-                actionP1 = GetDirection(currentState,0);
+                actionP1 = GetDirection(currentState, 0);
 
                 currentReward += result.Item2;
 
